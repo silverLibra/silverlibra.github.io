@@ -11,20 +11,30 @@ import {
     Row, Col
 } from 'reactstrap';
 import classnames from 'classnames';
+import {MaskMap} from "./conponent/maskMap.jsx";
+import {FreeCell} from "./conponent/freecell.jsx";
 
 function App() {
-    useEffect(() => {
-    }, []);
+    const projectName =['maskMap','freecell'];
     const [activeTab, setActiveTab] = useState('sideProject');
     const [collapseInfo, setCollapseInfo] = useState({
-        maskMap: {isOpen: true}
+        maskMap: {isOpen: true},
+        freecell: {isOpen: false},
     });
     const toggle = tab => {
         if (activeTab !== tab) setActiveTab(tab);
     };
     const collapseToggle = id => {
         let data = {...collapseInfo};
-        data[id].isOpen = !data[id].isOpen;
+        if(data[id].isOpen === false) {
+            projectName.forEach((data) => {
+                collapseInfo[data].isOpen = false;
+            });
+            data[id].isOpen = true;
+        }
+        else {
+            data[id].isOpen = false;
+        }
         setCollapseInfo(data);
     };
     const showAngleIcon = isOpen => {
@@ -50,43 +60,14 @@ function App() {
                         <TabContent activeTab={activeTab} className="py-4">
                             <TabPane tabId="sideProject">
                                 <ul>
-                                    <li style={{cursor:"pointer"}} onClick={() => {
-                                        collapseToggle("maskMap")
-                                    }}>
-                                        <b className="text-info">藥局口罩採購地圖</b> - <small>2020-02-13 - 詳情 </small>{showAngleIcon(collapseInfo.maskMap.isOpen)}
-                                        <Collapse
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                            }}
-                                            isOpen={collapseInfo.maskMap.isOpen}
-                                        >
-                                            <Media>
-                                                <Row xs={1} md={2}>
-                                                    <Col>
-                                                        <Media left href="https://silverlibra.github.io/mask_map" target="_blank"
-                                                        >
-                                                            <Media
-                                                                style={{width: '100%'}}
-                                                                object src="./static/img/sideProject_tiny_mask-Map.jpg"
-                                                                alt="mask-Map image"/>
-                                                        </Media>
-                                                    </Col>
-                                                    <Col>
-                                                        <Media body>
-                                                            <Media heading>
-                                                                藥局口罩採購地圖 <small>(2020-02-13)</small>
-                                                            </Media>
-
-                                                            2020-02 開始，因應武漢肺炎，台灣口罩搶購。<br/>
-                                                            此專案為顯示口罩存貨地圖的開源專案。<br/>
-                                                            <a href="https://silverlibra.github.io/mask_map" target="_blank">使用網站</a> /
-                                                            <a href="https://github.com/silverLibra/mask_map" target="_blank">GitHub</a><br/>
-                                                        </Media>
-                                                    </Col>
-                                                </Row>
-                                            </Media>
-                                        </Collapse>
-                                    </li>
+                                  <MaskMap collapseToggle={collapseToggle}
+                                           showAngleIcon={showAngleIcon}
+                                           isOpen={collapseInfo.maskMap.isOpen}
+                                  />
+                                    <FreeCell collapseToggle={collapseToggle}
+                                             showAngleIcon={showAngleIcon}
+                                             isOpen={collapseInfo.freecell.isOpen}
+                                    />
                                 </ul>
                             </TabPane>
                         </TabContent>

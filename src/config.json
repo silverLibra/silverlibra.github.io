@@ -1,0 +1,8 @@
+{
+  "activeTab": {
+    "all": ["sideProjectTab","javascriptInfoTab"],
+    "default": "sideProjectTab",
+    "sideProjectTab": "sideProjectTab",
+    "javascriptInfoTab": "javascriptInfoTab"
+  }
+}

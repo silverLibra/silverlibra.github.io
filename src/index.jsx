@@ -11,9 +11,9 @@ import classnames from 'classnames';
 import SideProjectTab from "./conponent/sideProject/index.jsx";
 import JavascriptInfoTab from "./conponent/javascriptInfo/index.jsx";
 import {useInterval} from "./customHook/index.jsx";
-
+import config from "./config.json";
 function App() {
-    const [activeTab, setActiveTab] = useState('javascriptInfoTab');
+    const [activeTab, setActiveTab] = useState(config.activeTab.default);
     const [counter, setCounter] = useState(0);
     const toggle = tab => {
         if (activeTab !== tab) setActiveTab(tab);
@@ -32,9 +32,9 @@ function App() {
                             <NavItem>
                                 <NavLink
                                     href="#"
-                                    className={classnames({active: activeTab === 'sideProjectTab'})}
+                                    className={classnames({active: activeTab === config.activeTab.sideProjectTab})}
                                     onClick={() => {
-                                        toggle('sideProjectTab');
+                                        toggle(config.activeTab.sideProjectTab);
                                     }}>
                                     Side Project
                                 </NavLink>
@@ -43,17 +43,17 @@ function App() {
                             <NavItem>
                                 <NavLink
                                     href="#"
-                                    className={classnames({active: activeTab === 'javascriptInfoTab'})}
+                                    className={classnames({active: activeTab === config.activeTab.javascriptInfoTab})}
                                     onClick={() => {
-                                        toggle('javascriptInfoTab');
+                                        toggle(config.activeTab.javascriptInfoTab);
                                     }}>
                                     Javascript
                                 </NavLink>
                             </NavItem>
                         </Nav>
                         <TabContent activeTab={activeTab} className="py-4">
-                            <SideProjectTab tabId="sideProjectTab"/>
-                            <JavascriptInfoTab tabId="javascriptInfoTab"/>
+                            <SideProjectTab tabId={config.activeTab.sideProjectTab}/>
+                            <JavascriptInfoTab tabId={config.activeTab.javascriptInfoTab}/>
                         </TabContent>
                     </div>
                 </Col>

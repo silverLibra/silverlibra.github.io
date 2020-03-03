@@ -1,45 +1,27 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import "./css/custom.scss";
 import 'bootstrap/dist/css/bootstrap.css';
-import * as Fa from 'react-icons/fa';
 import {
-    TabContent, TabPane, Nav, NavItem, NavLink,
+    TabContent, Nav, NavItem, NavLink,
     Container,
-    Collapse,
-    Media,
     Row, Col
 } from 'reactstrap';
 import classnames from 'classnames';
-import {MaskMap} from "./conponent/maskMap.jsx";
-import {FreeCell} from "./conponent/freecell.jsx";
+import SideProjectTab from "./conponent/sideProject/index.jsx";
+import JavascriptInfoTab from "./conponent/javascriptInfo/index.jsx";
+import {useInterval} from "./customHook/index.jsx";
 
 function App() {
-    const projectName =['maskMap','freecell'];
-    const [activeTab, setActiveTab] = useState('sideProject');
-    const [collapseInfo, setCollapseInfo] = useState({
-        maskMap: {isOpen: true},
-        freecell: {isOpen: false},
-    });
+    const [activeTab, setActiveTab] = useState('javascriptInfoTab');
+    const [counter, setCounter] = useState(0);
     const toggle = tab => {
         if (activeTab !== tab) setActiveTab(tab);
     };
-    const collapseToggle = id => {
-        let data = {...collapseInfo};
-        if(data[id].isOpen === false) {
-            projectName.forEach((data) => {
-                collapseInfo[data].isOpen = false;
-            });
-            data[id].isOpen = true;
-        }
-        else {
-            data[id].isOpen = false;
-        }
-        setCollapseInfo(data);
-    };
-    const showAngleIcon = isOpen => {
-        return isOpen ? <Fa.FaAngleDown/> : <Fa.FaAngleUp/>;
-    };
+    useInterval(() => {
+            setCounter(counter + 1);
+        },
+        1000, false);
     return (<>
         <Container>
             <Row>
@@ -49,32 +31,35 @@ function App() {
                         <Nav tabs>
                             <NavItem>
                                 <NavLink
-                                    className={classnames({active: activeTab === 'sideProject'})}
+                                    href="#"
+                                    className={classnames({active: activeTab === 'sideProjectTab'})}
                                     onClick={() => {
-                                        toggle('sideProject');
+                                        toggle('sideProjectTab');
                                     }}>
                                     Side Project
+                                </NavLink>
+
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    href="#"
+                                    className={classnames({active: activeTab === 'javascriptInfoTab'})}
+                                    onClick={() => {
+                                        toggle('javascriptInfoTab');
+                                    }}>
+                                    Javascript
                                 </NavLink>
                             </NavItem>
                         </Nav>
                         <TabContent activeTab={activeTab} className="py-4">
-                            <TabPane tabId="sideProject">
-                                <ul>
-                                  <MaskMap collapseToggle={collapseToggle}
-                                           showAngleIcon={showAngleIcon}
-                                           isOpen={collapseInfo.maskMap.isOpen}
-                                  />
-                                    <FreeCell collapseToggle={collapseToggle}
-                                             showAngleIcon={showAngleIcon}
-                                             isOpen={collapseInfo.freecell.isOpen}
-                                    />
-                                </ul>
-                            </TabPane>
+                            <SideProjectTab tabId="sideProjectTab"/>
+                            <JavascriptInfoTab tabId="javascriptInfoTab"/>
                         </TabContent>
                     </div>
                 </Col>
             </Row>
         </Container>
+        <div style={{position:'fixed',bottom:0,right:0}}>{counter}</div>
     </>)
 }
 

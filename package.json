@@ -16,7 +16,7 @@
   "author": "Hung Yi Cheng",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.1",
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",
     "path": "^0.12.7",
